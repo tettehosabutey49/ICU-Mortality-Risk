@@ -1,2 +1,15 @@
 extra/
-icu_env
+icu_env/
+__pycache__/
+.env
+*.pyc
+.ipynb_checkpoints/
+models/*.pkl
+data/raw/
+TECHNICAL_DOCS.md
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.venv/
+venv/
