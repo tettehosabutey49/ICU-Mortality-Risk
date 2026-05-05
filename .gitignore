@@ -7,9 +7,11 @@ __pycache__/
 models/*.pkl
 data/raw/
 TECHNICAL_DOCS.md
+CLAUDE.md
 *.egg-info/
 dist/
 build/
 .pytest_cache/
 .venv/
 venv/
+
