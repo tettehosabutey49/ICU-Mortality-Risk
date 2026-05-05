@@ -8,6 +8,7 @@ models/*.pkl
 data/raw/
 TECHNICAL_DOCS.md
 CLAUDE.md
+.claude/
 *.egg-info/
 dist/
 build/
