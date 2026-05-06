@@ -24,7 +24,7 @@ from dotenv import load_dotenv
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-load_dotenv(ROOT / ".env", override=False)
+load_dotenv(ROOT / ".env", override=True)
 
 from src.explainability import explain_patient
 from src.models import load_model
@@ -218,7 +218,7 @@ def _build_patient_row(inputs: dict) -> pd.DataFrame:
     X_coh  = cohort[fnames] if fnames else cohort.drop(
         columns=["mortality_prob", "y_pred", "hospital_death",
                  "icu_type", "ethnicity", "age_group", "gender_str"], errors="ignore")
-    base = X_coh.mean().to_dict()
+    base = X_coh.select_dtypes(include='number').mean().to_dict()
 
     comorb = sum(float(inputs.get(k, 0)) for k in
                  ["diabetes_mellitus", "heart_failure", "cirrhosis", "immunosuppression", "aids"])
