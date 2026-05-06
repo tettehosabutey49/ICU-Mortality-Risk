@@ -1,0 +1,82 @@
+name,type,description,missing_pct,pointbiserial_r,source
+apache_4a_hospital_death_prob,float64,Raw clinical measurement recorded on ICU day 1,8.67,0.3003,raw
+shock_index,float64,HR_max / SBP_min: validated haemodynamic instability index (threshold SI > 1.0),0.0,0.2795,derived
+apache_4a_icu_death_prob,float64,Raw clinical measurement recorded on ICU day 1,8.67,0.274,raw
+gcs_motor_apache,float64,Raw clinical measurement recorded on ICU day 1,2.07,-0.2737,raw
+gcs_eyes_apache,float64,Raw clinical measurement recorded on ICU day 1,2.07,-0.2507,raw
+gcs_verbal_apache,float64,Raw clinical measurement recorded on ICU day 1,2.07,-0.2311,raw
+ventilated_apache,float64,Raw clinical measurement recorded on ICU day 1,0.78,0.2264,raw
+d1_spo2_min,float64,Raw clinical measurement recorded on ICU day 1,0.0,-0.2093,raw
+d1_sysbp_noninvasive_min,float64,Raw clinical measurement recorded on ICU day 1,1.12,-0.2085,raw
+d1_temp_min,float64,Raw clinical measurement recorded on ICU day 1,0.0,-0.2024,raw
+spo2_hr_ratio,float64,SpO2_min / HR_max: oxygen-delivery efficiency proxy,0.0,-0.196,derived
+d1_mbp_noninvasive_min,float64,Raw clinical measurement recorded on ICU day 1,1.61,-0.1939,raw
+d1_diasbp_noninvasive_min,float64,Raw clinical measurement recorded on ICU day 1,1.13,-0.1786,raw
+hr_variability,float64,HR_max − HR_min: heart-rate range as autonomic dysfunction proxy,0.0,0.1763,derived
+temp_delta,float64,temp_max − temp_min: temperature variability as inflammatory instability marker,0.0,0.1755,derived
+intubated_apache,float64,Raw clinical measurement recorded on ICU day 1,0.78,0.1717,raw
+d1_heartrate_max,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.1627,raw
+temp_apache,float64,Raw clinical measurement recorded on ICU day 1,4.48,-0.1523,raw
+shock_index_high,int32,Binary flag: shock index exceeds 1.0 — haemodynamic instability present,0.0,0.1519,derived
+h1_sysbp_noninvasive_min,float64,Raw clinical measurement recorded on ICU day 1,8.0,-0.1441,raw
+h1_mbp_noninvasive_min,float64,Raw clinical measurement recorded on ICU day 1,9.9,-0.1423,raw
+bp_variability,float64,SBP_max − SBP_min: BP swing indicating vasopressor weaning difficulty,0.0,0.1347,derived
+h1_diasbp_noninvasive_min,float64,Raw clinical measurement recorded on ICU day 1,8.01,-0.1273,raw
+apache_3j_bodysystem,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.1268,raw
+apache_score_delta,float64,hospital_death_prob − icu_death_prob: post-ICU deterioration gap,8.67,0.1254,derived
+h1_resprate_max,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.1194,raw
+h1_heartrate_max,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.1121,raw
+icu_admit_source,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.1109,raw
+apache_2_bodysystem,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.1104,raw
+h1_resprate_min,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.1084,raw
+age,float64,Raw clinical measurement recorded on ICU day 1,4.61,0.1083,raw
+heart_rate_apache,float64,Raw clinical measurement recorded on ICU day 1,0.96,0.1073,raw
+d1_potassium_max,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.1063,raw
+h1_spo2_min,float64,Raw clinical measurement recorded on ICU day 1,0.0,-0.1058,raw
+d1_resprate_max,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.1027,raw
+elective_surgery,int64,Raw clinical measurement recorded on ICU day 1,0.0,-0.0936,raw
+apache_3j_diagnosis,float64,Raw clinical measurement recorded on ICU day 1,1.2,-0.0904,raw
+apache_2_diagnosis,float64,Raw clinical measurement recorded on ICU day 1,1.81,-0.0884,raw
+resprate_apache,float64,Raw clinical measurement recorded on ICU day 1,1.35,0.0861,raw
+h1_heartrate_min,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.0859,raw
+apache_post_operative,int64,Raw clinical measurement recorded on ICU day 1,0.0,-0.0837,raw
+d1_glucose_max,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.0792,raw
+glucose_variability,float64,glucose_max − glucose_min: glycaemic variability as sepsis/stress-hyperglycaemia marker,0.0,0.0714,derived
+h1_sysbp_noninvasive_max,float64,Raw clinical measurement recorded on ICU day 1,8.0,-0.0652,raw
+high_risk_comorbidity,int32,"Any of cirrhosis, hepatic failure, metastatic tumour, AIDS present (OR > 2 from EDA)",0.0,0.0643,derived
+pre_icu_los_days,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.0633,raw
+h1_mbp_noninvasive_max,float64,Raw clinical measurement recorded on ICU day 1,9.9,-0.0607,raw
+icu_type,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.0517,raw
+gcs_unable_apache,float64,Raw clinical measurement recorded on ICU day 1,1.13,0.0512,raw
+solid_tumor_with_metastasis,int32,Raw clinical measurement recorded on ICU day 1,0.0,0.0507,raw
+h1_spo2_max,float64,Raw clinical measurement recorded on ICU day 1,0.0,-0.0461,raw
+immunosuppression,int32,Raw clinical measurement recorded on ICU day 1,0.0,0.0436,raw
+map_apache,float64,Raw clinical measurement recorded on ICU day 1,1.08,-0.0409,raw
+cirrhosis,int32,Raw clinical measurement recorded on ICU day 1,0.0,0.0391,raw
+hepatic_failure,int32,Raw clinical measurement recorded on ICU day 1,0.0,0.0386,raw
+weight,float64,Raw clinical measurement recorded on ICU day 1,2.97,-0.0378,raw
+comorbidity_burden,int32,Count of active binary comorbidity flags (0–8): cumulative multi-morbidity load,0.0,0.0376,derived
+pulse_pressure,float64,SBP_max − DBP_max: marker of arterial stiffness and stroke volume,0.0,-0.0355,derived
+h1_diasbp_noninvasive_max,float64,Raw clinical measurement recorded on ICU day 1,8.01,-0.0337,raw
+bmi,float64,Raw clinical measurement recorded on ICU day 1,0.0,-0.031,raw
+d1_glucose_min,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.0299,raw
+leukemia,int32,Raw clinical measurement recorded on ICU day 1,0.0,0.0296,raw
+d1_sysbp_max,float64,Raw clinical measurement recorded on ICU day 1,0.0,-0.0274,raw
+arf_apache,float64,Raw clinical measurement recorded on ICU day 1,0.78,0.027,raw
+d1_resprate_min,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.0256,raw
+d1_potassium_min,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.0248,raw
+height,float64,Raw clinical measurement recorded on ICU day 1,1.45,-0.0192,raw
+lymphoma,int32,Raw clinical measurement recorded on ICU day 1,0.0,0.0186,raw
+d1_mbp_max,float64,Raw clinical measurement recorded on ICU day 1,0.0,-0.0168,raw
+diabetes_mellitus,int32,Raw clinical measurement recorded on ICU day 1,0.0,-0.0162,raw
+ethnicity,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.0133,raw
+map_derived,float64,(SBP + 2×DBP)/3: estimated mean arterial pressure for organ perfusion assessment,0.0,-0.0107,derived
+d1_spo2_max,float64,Raw clinical measurement recorded on ICU day 1,0.0,-0.0081,raw
+gender,int32,"Binary-encoded sex: M=1, F=0",0.0,-0.0073,raw
+d1_temp_max,float64,Raw clinical measurement recorded on ICU day 1,0.0,0.005,raw
+aids,int32,Raw clinical measurement recorded on ICU day 1,0.0,0.0044,raw
+d1_heartrate_min,float64,Raw clinical measurement recorded on ICU day 1,0.0,-0.0036,raw
+d1_diasbp_noninvasive_max,float64,Raw clinical measurement recorded on ICU day 1,1.13,0.0025,raw
+icu_stay_type,object,Raw clinical measurement recorded on ICU day 1,0.0,,raw
+hospital_death,int64,"Outcome label: 1=died in hospital, 0=survived to discharge",0.0,,raw
+age_group,object,Age category for fairness audit (not used in model): young_adult/middle_aged/older_adult/elderly,0.0,,derived

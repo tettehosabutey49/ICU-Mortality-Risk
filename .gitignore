@@ -7,6 +7,7 @@ __pycache__/
 models/*.pkl
 data/raw/
 TECHNICAL_DOCS.md
+COMMIT_MSG.txt
 CLAUDE.md
 .claude/
 *.egg-info/
