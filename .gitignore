@@ -4,7 +4,7 @@ __pycache__/
 .env
 *.pyc
 .ipynb_checkpoints/
-models/*.pkl
+#models/*.pkl
 data/raw/
 TECHNICAL_DOCS.md
 COMMIT_MSG.txt
