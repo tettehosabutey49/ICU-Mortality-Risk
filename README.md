@@ -23,7 +23,7 @@ This project builds a mortality prediction pipeline on 91,071 real ICU admission
 ## Architecture
 
 ```
-patient_survival.csv (91,071 rows · 186 features · 8.6% mortality)
+patient_survival.csv (91,713 rows · 85 columns · 8.63% mortality)
         │
         ▼
 01_eda.ipynb ─────────────── Distribution analysis · UMAP clustering
@@ -36,7 +36,7 @@ patient_survival.csv (91,071 rows · 186 features · 8.6% mortality)
 03_modeling.ipynb ─────────── 70/15/15 stratified split · SMOTE (train only)
         │                    LR baseline → RF → XGBoost → LightGBM
         │                    RandomizedSearchCV (AUC-PR) · threshold optimisation
-        │                    Best: LightGBM  AUC-ROC 0.906  AUC-PR 0.578
+        │                    Best: LightGBM  AUC-ROC 0.8956  AUC-PR 0.5722
         ▼
 04_explainability.ipynb ───── SHAP TreeExplainer · global beeswarm · dependence plots
         │                    Waterfall case studies (TP · TN · FP · FN)
@@ -53,18 +53,33 @@ app/streamlit_app.py ──────── 4-page live demo (synthetic cohort
 
 ## Key Findings
 
-**Best model:** LightGBM (tuned) — AUC-ROC **0.906**, AUC-PR **0.578**, Recall **0.74** at threshold 0.35
+**Best model:** LightGBM (tuned) — AUC-ROC **0.8956**, AUC-PR **0.5722**, F1 **0.5229** at threshold 0.35
 
-**Top 3 predictive features (SHAP):**
-1. `apache_4a_hospital_death_prob` — APACHE IV predicted mortality probability; the single strongest predictor, confirming the score's clinical validity while also showing the model learns non-linear adjustments on top of it
-2. `comorbidity_burden` — engineered count of active comorbidities (diabetes, heart failure, cirrhosis, AIDS, etc.); each additional comorbidity compounds predicted mortality risk non-linearly
-3. `shock_index` — heart rate ÷ systolic BP; values above 0.9 correlate with haemodynamic instability and are captured by the model as a continuous risk signal
+**Top predictive features (SHAP global ranking):**
+1. `apache_4a_hospital_death_prob` (SHAP rank #1) — APACHE IVa predicted mortality probability; the single strongest predictor. Crucially, XGBoost native gain ranks it **#16** — a major disagreement that proves native importance is misleading
+2. `apache_4a_icu_death_prob` (SHAP rank #2) — ICU-specific death probability from APACHE IVa; carries complementary signal to the hospital-death probability
+3. `apache_score_delta` (SHAP rank #4, mean |SHAP| = 0.2166) — engineered feature: hospital-death probability minus ICU-death probability; captures patients at risk of post-ICU deterioration, a signal absent from raw severity scores
+4. `d1_resprate_max` (SHAP rank #6) — maximum respiratory rate in the first 24 hours; a direct marker of respiratory compromise and respiratory failure risk
+5. `spo2_hr_ratio` (SHAP rank #7, mean |SHAP| = 0.1322) — engineered SpO₂-to-heart-rate ratio; strongest interaction partner with `apache_4a_hospital_death_prob`
 
-**Most significant fairness finding:**
-Patients aged 80+ (elderly subgroup) showed a false negative rate **14 percentage points above** the population mean. The model systematically under-predicts mortality risk in the oldest patients, whose atypical physiological presentations diverge from patterns learned from the broader training population. Post-processing with `ThresholdOptimizer` reduces the equalized-odds gap at the cost of a modest drop in overall F1 — a tradeoff that requires clinical and ethics review.
+**8 of 12 engineered features** ranked above median SHAP importance across all features. `shock_index` (mean |SHAP| = 0.1437) and `spo2_hr_ratio` both outperformed many raw clinical measurements.
 
-**Notable EDA finding:**
-Patients admitted from the operating room had **2.4× lower odds** of in-hospital death compared to emergency department admissions (OR = 0.42, p < 0.001 after Bonferroni correction). This confirms the well-established elective surgery paradox: OR patients are physiologically selected and optimised pre-operatively, while ED patients typically arrive in acute decompensation.
+**SHAP vs native importance disagreement**: `pre_icu_los_days` ranks **#1 by XGBoost gain** but **#12 by SHAP** — it appears in many shallow splits but has low marginal impact once other features are present. `apache_4a_hospital_death_prob` has the inverse problem: ignored by gain-based importance, dominant by SHAP.
+
+**Most significant fairness findings:**
+- **Ethnicity**: FNR ranges from 30.0% to 46.0% across ethnic groups — a **16.3 percentage-point gap**. Equalized-odds difference: **0.1603** (FLAGGED). The model systematically under-flags dying patients in the highest-FNR ethnic group.
+- **Age**: Equalized-odds difference **0.1423** (FLAGGED); demographic parity gap **0.1831** (FLAGGED). Counterintuitively, the **youngest adults (18–45) show the highest FNR at 45.8%**, not the elderly — likely because atypical severity presentations in young critical patients are under-represented in training.
+- **Gender**: No meaningful disparity — FNR gap of only **1.1%** (OK).
+
+Post-processing with `ThresholdOptimizer` (equalized-odds constraint) reduces these gaps at the cost of a modest drop in overall F1 — a tradeoff that requires clinical and ethics review before deployment.
+
+**Key EDA findings:**
+- **Dataset**: 91,713 rows · 85 columns · 8.63% mortality (7,915 deaths); zero duplicate rows; 1 feature above the 60% missingness threshold
+- **Age**: Patients who died were 7 years older at median (71 yr vs 64 yr for survivors); Mann-Whitney p = 1.49×10⁻²⁴⁷, rank-biserial r = 0.24 — small but unambiguous. Gender association is statistically significant but negligible (chi-square p = 0.034, Cramér's V = 0.007)
+- **ICU type**: MICU carries the highest mortality at **12.1%**; CSICU the lowest at **5.5%**. Cardiac ICU: 10.3%; CCU-CTICU: 7.6%
+- **Comorbidity ORs**: Solid tumor with metastasis (OR **2.47**, CI 2.20–2.78), leukemia (OR **2.43**, CI 1.99–2.97), and hepatic failure (OR **2.39**, CI 2.05–2.77) are the strongest mortality predictors. AIDS (OR 1.56) does not reach significance (CI includes 1.0)
+- **Counterintuitive finding**: `diabetes_mellitus` is **protective** (OR **0.87**, CI 0.82–0.92) — likely because diabetic ICU patients receive more structured glucose monitoring, which also catches early deterioration
+- **Admission pathway**: Patients admitted from the operating room had **2.4× lower mortality odds** than emergency department admissions — the elective surgery paradox
 
 ---
 
