@@ -70,6 +70,7 @@ app/streamlit_app.py ──────── 4-page live demo (synthetic cohort
 - **Ethnicity**: FNR ranges from 30.0% to 46.0% across ethnic groups — a **16.3 percentage-point gap**. Equalized-odds difference: **0.1603** (FLAGGED). The model systematically under-flags dying patients in the highest-FNR ethnic group.
 - **Age**: Equalized-odds difference **0.1423** (FLAGGED); demographic parity gap **0.1831** (FLAGGED). Counterintuitively, the **youngest adults (18–45) show the highest FNR at 45.8%**, not the elderly — likely because atypical severity presentations in young critical patients are under-represented in training.
 - **Gender**: No meaningful disparity — FNR gap of only **1.1%** (OK).
+- **Intersectional analysis (ethnicity × age group)**: The raw heatmap shows FNR values up to 100% in some cells, but most extreme values have denominators of 1–5 deaths. Applying a minimum threshold of 10 deaths per cell, 15 of 35 intersectional cells are statistically reliable; within those, FNR ranges from **23.5% to 55.0%** — still a meaningful spread, but reported honestly rather than inflated by noise. Cells below the threshold are flagged as directional-only and require prospective data collection before clinical conclusions can be drawn.
 
 Post-processing with `ThresholdOptimizer` (equalized-odds constraint) reduces these gaps at the cost of a modest drop in overall F1 — a tradeoff that requires clinical and ethics review before deployment.
 
