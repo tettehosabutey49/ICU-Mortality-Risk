@@ -199,6 +199,7 @@ def get_shap_importance() -> pd.DataFrame:
     X      = df[fnames] if fnames else df.drop(
         columns=["mortality_prob", "y_pred", "hospital_death",
                  "icu_type", "ethnicity", "age_group", "gender_str"], errors="ignore")
+    X = X.select_dtypes(include="number")  # update
     sv = compute_shap_values(mdl, X)
     return (
         pd.DataFrame({"feature": list(X.columns),
