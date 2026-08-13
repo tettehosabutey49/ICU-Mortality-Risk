@@ -193,17 +193,40 @@ def generate_cohort(n: int = 500, seed: int = 42) -> pd.DataFrame:
 def get_shap_importance() -> pd.DataFrame:
     """Mean |SHAP| per feature across the synthetic cohort."""
     from src.explainability import compute_shap_values
-    mdl    = get_model()
+
+    mdl = get_model()
     fnames = _feat_names(mdl)
-    df     = generate_cohort()
-    X      = df[fnames] if fnames else df.drop(
-        columns=["mortality_prob", "y_pred", "hospital_death",
-                 "icu_type", "ethnicity", "age_group", "gender_str"], errors="ignore")
-    X = X.select_dtypes(include="number")  # update
+    df = generate_cohort()
+
+    if fnames:
+        # Only keep columns the model knows about, in the exact order
+        available = [f for f in fnames if f in df.columns]
+        X = df[available].select_dtypes(include="number")
+        # Reindex to match model's expected features exactly
+        X = X.reindex(columns=fnames, fill_value=0)
+    else:
+        X = df.drop(
+            columns=[
+                "mortality_prob",
+                "y_pred",
+                "hospital_death",
+                "icu_type",
+                "ethnicity",
+                "age_group",
+                "gender_str",
+            ],
+            errors="ignore",
+        )
+        X = X.select_dtypes(include="number")
+
     sv = compute_shap_values(mdl, X)
     return (
-        pd.DataFrame({"feature": list(X.columns),
-                      "mean_abs_shap": np.abs(sv.values).mean(axis=0)})
+        pd.DataFrame(
+            {
+                "feature": list(X.columns),
+                "mean_abs_shap": np.abs(sv.values).mean(axis=0),
+            }
+        )
         .sort_values("mean_abs_shap", ascending=False)
         .head(10)
         .reset_index(drop=True)
