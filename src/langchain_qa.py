@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Using the current Claude Sonnet model for strong clinical reasoning at low latency.
-LLM_MODEL = "claude-sonnet-4-20250514"
+LLM_MODEL = "claude-sonnet-4-6"
 
 CHROMA_PERSIST_DIR = Path("models/chroma_db")
 
