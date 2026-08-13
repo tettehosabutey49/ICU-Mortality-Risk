@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Using the current Claude Sonnet model for strong clinical reasoning at low latency.
-LLM_MODEL = "claude-sonnet-4-6"
+LLM_MODEL = "claude-sonnet-4-20250514"
 
 CHROMA_PERSIST_DIR = Path("models/chroma_db")
 
@@ -342,16 +342,25 @@ class ClinicalExplainer:
         self._retriever = None
 
         if self.api_key:
-            try:
-                from langchain_anthropic import ChatAnthropic
-                self._llm = ChatAnthropic(
-                    model=LLM_MODEL,
-                    api_key=self.api_key,
-                    temperature=0,  # deterministic responses for clinical use
-                )
-                self._retriever = self._build_qa_retriever()
-            except Exception as exc:
-                print(f"[ClinicalExplainer] Warning — LLM init failed: {exc}")
+            from langchain_anthropic import ChatAnthropic
+            self._llm = ChatAnthropic(
+                model=LLM_MODEL,
+                api_key=self.api_key,
+                temperature=0,
+            )
+            self._retriever = self._build_qa_retriever()
+            
+        # if self.api_key:
+        #     try:
+        #         from langchain_anthropic import ChatAnthropic
+        #         self._llm = ChatAnthropic(
+        #             model=LLM_MODEL,
+        #             api_key=self.api_key,
+        #             temperature=0,  # deterministic responses for clinical use
+        #         )
+        #         self._retriever = self._build_qa_retriever()
+        #     except Exception as exc:
+        #         print(f"[ClinicalExplainer] Warning — LLM init failed: {exc}")
 
     # ------------------------------------------------------------------ #
 

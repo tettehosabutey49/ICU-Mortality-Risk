@@ -76,7 +76,7 @@ LR_DEFAULTS: dict[str, Any] = {
     "solver": "lbfgs",
 }
 
-MODELS_DIR = Path("models")
+MODELS_DIR = Path(__file__).resolve().parents[1] / "models"
 
 # RandomizedSearch parameter distributions — one dict per model family.
 # Ranges chosen to span a wide-but-plausible space without exhaustive enumeration.
